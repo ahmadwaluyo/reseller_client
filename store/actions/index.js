@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
-// const url = "https://resellerver.herokuapp.com";
-const url = "http://be3cd5afdae7.ngrok.io";
+const url = "https://resellerver.herokuapp.com";
+// const url = "http://be3cd5afdae7.ngrok.io";
 
 export const SET_LOGIN = 'SET_LOGIN';
 export const SET_LOADING = 'SET_LOADING';
