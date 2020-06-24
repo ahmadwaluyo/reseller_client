@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "reseller_client",
-    "slug": "reseller_client",
+    "name": "resellerKuy",
+    "slug": "resellerkuy",
     "platforms": [
       "ios",
       "android",
@@ -9,10 +9,10 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/supplier.png",
     "scheme": "myapp",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/supplier.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -25,8 +25,14 @@
     "ios": {
       "supportsTablet": true
     },
+    "android": {
+      "package": "com.joe_achmed.resellerver",
+      "versionCode": 1
+    },
     "web": {
-      "favicon": "./assets/images/favicon.png"
-    }
+      "favicon": "./assets/images/supplier.png"
+    },
+    "description": "",
+    "githubUrl": "https://github.com/ahmadwaluyo/reseller_client"
   }
 }
