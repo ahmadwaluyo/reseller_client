@@ -7,6 +7,8 @@ export const SET_LOGIN = 'SET_LOGIN';
 export const SET_LOADING = 'SET_LOADING';
 export const SET_GETUSER = 'SET_GETUSER';
 export const SET_ALLPRODUCT = 'SET_ALLPRODUCT';
+export const SET_SUCCESSPOST = 'SET_SUCCESSPOST';
+export const SET_DELETERESELLER = 'SET_DELETERESELLER';
 
 export const setLogin = (data) => {
     return { type: "SET_LOGIN", payload : data }
@@ -22,6 +24,14 @@ export const setLoading = (status) => {
 
 export const setAllProduct = (data) => {
     return { type: SET_ALLPRODUCT, payload: data }
+}
+
+export const setSuccessPostProduct = (data) => {
+    return { type: SET_SUCCESSPOST, payload: data }
+}
+
+export const setSuccessDeleteReseller = (data) => {
+    return { type: SET_DELETERESELLER, payload: data }
 }
 
 export const login = (dataLogin) => {
@@ -49,7 +59,8 @@ export const getAllUser = (data) => {
             }
         })
             .then(({ data }) => {
-                dispatch(setGetUser(data))
+                dispatch(setLoading(false));
+                dispatch(setGetUser(data));
             })
             .catch(err => {
                 console.log(err);
@@ -98,6 +109,7 @@ export const deleteReseller = (data) => {
         })
             .then(({ data }) => {
                 console.log(data);
+                dispatch(setSuccessDeleteReseller(data));
             })
             .catch(err => {
                 console.log(err);
@@ -113,6 +125,24 @@ export const getAllProducts = (data) => {
             console.log(data, 'dataProduct');
             dispatch(setAllProduct(data))
             dispatch(setLoading(false))
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+}
+
+export const postProduct = (data) => {
+    return (dispatch) => {
+        axios.post(`${url}/products`, data.data, {
+            headers: {
+                'token' : `${data.token}`
+            }
+        })
+        .then(({ data }) => {
+            console.log('success create product');
+            console.log(data);
+            dispatch(setSuccessPostProduct(data))
         })
         .catch(err => {
             console.log(err);

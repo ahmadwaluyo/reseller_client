@@ -9,7 +9,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Picker, Form, Content, Card, CardItem, Text, Button, Icon, Left, Body, Right, Header, Item, Input } from 'native-base';
 import { Table, Row, Rows, TableWrapper, Cell } from 'react-native-table-component';
 import Modal from 'react-native-modal';
-import { getAllProducts ,getAllUser, createReseller, editReseller, deleteReseller } from '../../store/actions';
+import { getAllProducts ,getAllUser, postProduct, editReseller, deleteReseller } from '../../store/actions';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function DataProduct({ navigation }) {
   const [brand, setBrand] = useState('');
@@ -20,6 +21,7 @@ export default function DataProduct({ navigation }) {
   const [descriptions, setDescriptions] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [selected, setSelect] = useState("key2");
+  const [photo_local, setPhotoLocal] = useState('');
   const loading = useSelector((state) => state.loading);
   const allUsers = useSelector((state) => state.allUsers);
   const allProducts = useSelector((state) => state.allProducts);
@@ -61,36 +63,57 @@ export default function DataProduct({ navigation }) {
       descriptions
     }
 
-    let token = await AsyncStorage.getItem("token");
-    token = JSON.parse(token);
+    console.log(dataSubmit);
 
-    if (token) {
-      await dispatch(createReseller({
-        data : dataSubmit,
-        token: token.token
-      }))
-      Alert.alert(
-        "ResellerApp",
-        "Successfully create user",
-        [
-          { text: "OK", onPress: () => navigation.addListener("focus")}
-        ]
-      )
-      setBrand('');
-      setProductName('');
-      setImages('');
-      setStock('');
-      setPrice('');
-      setDescriptions('');
-    } else {
-      return (
-        <Text>Loading...</Text>
-      )
-    }
+    // let token = await AsyncStorage.getItem("token");
+    // token = JSON.parse(token);
+
+    // if (token) {
+    //   await dispatch(postProduct({
+    //     data : dataSubmit,
+    //     token: token.token
+    //   }))
+    //   Alert.alert(
+    //     "ResellerApp",
+    //     "Successfully create user",
+    //     [
+    //       { text: "OK", onPress: () => navigation.addListener("focus")}
+    //     ]
+    //   )
+    //   setBrand('');
+    //   setProductName('');
+    //   setImages('');
+    //   setStock('');
+    //   setPrice('');
+    //   setDescriptions('');
+    // } else {
+    //   return (
+    //     <Text>Loading...</Text>
+    //   )
+    // }
   }
 
   const handleEdit = (index) => {
     alertEdit(index)
+  }
+
+  const _pickImage = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      })
+      console.log("Result", result)
+      console.log("Photo Local", photo_local)
+      if (!result.cancelled) {
+        setPhotoLocal(result.uri)
+      }
+    } catch (E) {
+      console.log(E)
+    }
+
   }
 
   const handleDelete = async (data) => {
@@ -108,6 +131,17 @@ export default function DataProduct({ navigation }) {
   let tableHead = ['Brand', 'Product Name', 'Images', 'Stock', 'Price', 'Descriptions', 'Option'];
   let tableData = [];
 
+  // if (loading) {
+  //   return (
+  //     <View style={[styles.container, styles.horizontal]}>
+  //       <Image
+  //           source={require('../../assets/images/supplier.png')}
+  //           style={styles.imageStyle}
+  //         />
+  //         <Text style={[styles.imageStyle, { marginTop: 5, fontSize: 20, textAlign: 'center' }]}>Loading...</Text>
+  //     </View>
+  //   )
+  // } else 
   if (allProducts) {
     data = allProducts;
     if (data.length > 0) {
@@ -207,13 +241,17 @@ export default function DataProduct({ navigation }) {
               onChangeText={setProductName}
               value={product_name}
               />
-              <TextInput 
-              placeholder="Images" 
-              placeholderColor="#000000" 
-              style={styles.loginFormTextInput} 
-              onChangeText={setImages}
-              value={images}
-              />
+              <View style={{ flexDirection: 'row'}}>
+                <TextInput 
+                placeholder="Images" 
+                style={[styles.loginFormTextInput, { width: 200, marginRight: 5 }]} 
+                placeholderColor="#000000" 
+                value={photo_local}
+                />
+                <Button onPress={_pickImage} style={[styles.loginFormTextInput, { width: 80, marginLeft: 5, backgroundColor: '#2CBC7B' }]}>
+                  <Icon name="camera" style={{ fontSize: 30 }} />
+                </Button>
+              </View>
               <TextInput 
               placeholder="Stock" 
               placeholderColor="#000000" 

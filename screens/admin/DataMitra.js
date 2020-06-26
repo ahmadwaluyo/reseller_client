@@ -22,6 +22,8 @@ export default function DataMitra({ navigation }) {
   const [selected, setSelect] = useState("key2");
   const loading = useSelector((state) => state.loading);
   const allUsers = useSelector((state) => state.allUsers);
+  const successPost = useSelector((state) => state.successPost);
+  const successDeleteReseller = useSelector((state) => state.successDeleteReseller);
   const dispatch = useDispatch();
   let data;
   let token;
@@ -64,13 +66,7 @@ export default function DataMitra({ navigation }) {
         data : dataSubmit,
         token: token.token
       }))
-      Alert.alert(
-        "ResellerApp",
-        "Successfully create user",
-        [
-          { text: "OK", onPress: () => navigation.addListener("focus")}
-        ]
-      )
+      
       setEmail('');
       setUsername('');
       setPassword('');
@@ -82,6 +78,10 @@ export default function DataMitra({ navigation }) {
         <Text>Loading...</Text>
       )
     }
+
+    if (successPost) {
+      Alert.alert("Successfully create reseller");
+    }
   }
 
   const handleEdit = (index) => {
@@ -92,16 +92,31 @@ export default function DataMitra({ navigation }) {
     let token = await AsyncStorage.getItem("token");
     token = JSON.parse(token);
     if (token) {
-      let success = await dispatch(deleteReseller({
+      await dispatch(deleteReseller({
         id : data.id,
         token : token.token
       }));
-      success ? Alert.alert(`Success delete reseller id : ${data.id}`) : "";
+      if (successDeleteReseller) {
+        Alert.alert(`Success delete reseller id : ${data.id}`)
+      }
     }
   }
 
   let tableHead = ['Username', 'Phone', 'Email', 'Business', 'Address', 'Created', 'Option'];
   let tableData = [];
+
+
+  if (loading) {
+    return (
+      <View style={[styles.container, styles.horizontal]}>
+        <Image
+            source={require('../../assets/images/supplier.png')}
+            style={styles.imageStyle}
+          />
+          <Text style={[styles.imageStyle, { marginTop: 5, fontSize: 20, textAlign: 'center' }]}>Loading...</Text>
+      </View>
+    )
+  }
 
   if (allUsers) {
     data = allUsers;

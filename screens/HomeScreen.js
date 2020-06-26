@@ -31,11 +31,11 @@ export default function HomeScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
         <Container>
           <Header style={{ backgroundColor: '#2CBC7B', justifyContent: 'center', alignItems: 'center' }}> 
             <Text style={{ fontSize: 25, color: '#fff' }}>Information Page</Text>
           </Header>
+          <ScrollView>
           <Content>
             <Card style={{flex: 0}}>
               <CardItem>
@@ -49,24 +49,25 @@ export default function HomeScreen({ navigation, route }) {
               </CardItem>
               <CardItem>
                 <Body>
-                  <Image source={{uri: 'https://placeimg.com/640/640/beer'}} style={{height: 200, width: 320, flex: 1}}/>
-                  <Text>
-                    information text here
-                  </Text>
+                  <Image source={{uri: 'https://placeimg.com/640/640/beer'}} style={{height: 180, width: 320, flex: 1}}/>
+                  <Card style={{ width: 320, paddingVertical: 30, backgroundColor: '#222222' }}>
+                    <Text style={{ textAlign: 'center', color: '#fff'}}>
+                      information text here
+                    </Text>
+                  </Card>
                 </Body>
               </CardItem>
               <CardItem>
                 <Left>
                   <Button transparent textStyle={{color: '#87838B'}}>
-                    <Icon name="contact" />
                     <Text>admin</Text>
                   </Button>
                 </Left>
               </CardItem>
             </Card>
           </Content>
+          </ScrollView>
         </Container>
-      </ScrollView>
     </View>
   );
 }
