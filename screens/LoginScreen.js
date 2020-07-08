@@ -72,7 +72,7 @@ export default function Login({ navigation }) {
             style={styles.loginFormTextInput} 
             onChangeText={setEmail}
             value={email}
-            />
+            /> 
             <TextInput 
             placeholder="Username" 
             placeholderColor="#000000" 

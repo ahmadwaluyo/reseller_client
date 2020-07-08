@@ -19,6 +19,7 @@ export default function DataProduct({ navigation }) {
   const [stock, setStock] = useState('');
   const [price, setPrice] = useState('');
   const [descriptions, setDescriptions] = useState('');
+  const [varian, setVarian] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selected, setSelect] = useState("key2");
   const [photo_local, setPhotoLocal] = useState('');
@@ -60,7 +61,8 @@ export default function DataProduct({ navigation }) {
       images,
       stock,
       price,
-      descriptions
+      descriptions,
+      varian
     }
 
     console.log(dataSubmit);
@@ -336,7 +338,7 @@ export default function DataProduct({ navigation }) {
         </View>
         <View style={{ alignItems: 'flex-start', flexDirection: 'row', height: 25 }}>
           <Icon type="AntDesign" name="pluscircle" style={{ color: '#2CBC7B', fontSize: 24, marginHorizontal: 10 }} onPress={toggleModal} />
-          <Text note>Add Reseller</Text>
+          <Text note>Add Product</Text>
         </View>
         <ScrollView>
         <ScrollView horizontal={true}>

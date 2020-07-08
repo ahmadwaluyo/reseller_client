@@ -40,10 +40,8 @@ export default function HomeScreen({ navigation, route }) {
             <Card style={{flex: 0}}>
               <CardItem>
                 <Left>
-                  <Thumbnail source={require('../assets/images/supplier.png')} />
                   <Body>
-                    <Text>ResellerApp</Text>
-                    <Text note>April 15, 2016</Text>
+                    <Text>April 15, 2016</Text>
                   </Body>
                 </Left>
               </CardItem>
