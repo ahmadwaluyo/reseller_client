@@ -45,10 +45,6 @@ export default function ProfileScreen({ navigation }) {
   }
 
   if (dataLogin) {
-
-    console.log('ini dataLoginanjing', dataLogin);
-    // console.log('ini token', token);
-
     return (
       <View style={styles.container}>
         <View style={[{backgroundColor: "#ffffff"}]}>

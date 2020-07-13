@@ -6,8 +6,7 @@ import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Ic
 import { ScrollView } from 'react-native-gesture-handler';
 import Carousel from 'react-native-banner-carousel';
  
-const BannerWidth = Dimensions.get('window').width;
-const BannerHeight = 180;
+const width = Dimensions.get('window').width
 
 export default function HomeScreen({ navigation, route }) {
   // const loading = useSelector((state) => state.loading);
@@ -37,7 +36,6 @@ export default function HomeScreen({ navigation, route }) {
           </Header>
           <ScrollView>
           <Content>
-            <Card style={{flex: 0}}>
               <CardItem>
                 <Left>
                   <Body>
@@ -62,7 +60,6 @@ export default function HomeScreen({ navigation, route }) {
                   </Button>
                 </Left>
               </CardItem>
-            </Card>
           </Content>
           </ScrollView>
         </Container>

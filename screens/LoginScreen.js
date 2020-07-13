@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, KeyboardAvoidingView, StyleSheet, Image, ImageBackground, AsyncStorage} from 'react-native';
+import {Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, KeyboardAvoidingView, StyleSheet, Image, ImageBackground, AsyncStorage, Dimensions } from 'react-native';
 import { Button } from 'native-base';
 import Constant from 'expo-constants';
 import { login } from '../store/actions';
 
 const imagesHighlight = require('../assets/images/background.png');
+const width = Dimensions.get('window').width
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
@@ -57,10 +58,9 @@ export default function Login({ navigation }) {
 
   return (
     <KeyboardAvoidingView style={styles.containerView}>
-
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.loginScreenContainer}>
         <ImageBackground source={imagesHighlight} style={styles.image}>
+        <View style={[styles.loginScreenContainer, styles.shadow]}>
           <View style={styles.loginFormView}>
           <Image
             source={require('../assets/images/supplier.png')}
@@ -99,8 +99,8 @@ export default function Login({ navigation }) {
                 <Text style={styles.logoText}>presented by ResellerApp</Text>
             </View>
           </View>
-        </ImageBackground>
         </View>
+        </ImageBackground>
       </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
   );
@@ -174,4 +174,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 10
       },
+      shadow: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 3,
+        elevation: 3,
+      }
 });
