@@ -286,7 +286,6 @@ export default function DataProduct({ navigation }) {
               onTouchEnd={toggleModal}
               active name="close" style={{ fontSize: 30, position: 'absolute', top: 5, right: 5, color: '#ff0000' }} />
           </View>
-
         </Modal>
 
         <View style={{ flexDirection: 'row'}}>

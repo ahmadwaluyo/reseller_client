@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, KeyboardAvoidingView, StyleSheet, Image, ImageBackground, AsyncStorage, Dimensions } from 'react-native';
+import {Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, KeyboardAvoidingView, StyleSheet, Image, ImageBackground, AsyncStorage, Dimensions, ScrollView, ActivityIndicator } from 'react-native';
 import { Button } from 'native-base';
 import Constant from 'expo-constants';
-import { login } from '../store/actions';
+import { login, setErrorLogin, setSuccessLogin } from '../store/actions';
 
 const imagesHighlight = require('../assets/images/background.png');
 const width = Dimensions.get('window').width
@@ -14,7 +14,9 @@ export default function Login({ navigation }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-  const dataLogin = useSelector((state) => state.dataLogin)
+  const loading = useSelector(state => state.loading)
+  const errorLogin = useSelector((state) => state.errorLogin)
+  const successLogin = useSelector((state) => state.successLogin)
 
   // useEffect(() => {
   //   return navigation.addListener('focus', async () => {
@@ -34,71 +36,92 @@ export default function Login({ navigation }) {
   // }, [navigation ,AsyncStorage])
 
 
-  const handleSubmit = async() => {
+  const handleSubmit = () => {
     const data = {
       email,
       username,
       password
     }
 
-    await dispatch(login(data));
+    dispatch(login(data));
+  }
 
-    if (dataLogin) {
-      if (username === 'admin') {
-        navigation.navigate('RootAdmin', { request: 'BottomTabAdmin' });
-      } else {
-        navigation.navigate('Root', { request: 'BottomTabNavigator' });
-      }
+  if (successLogin) {
+    if (username === 'admin') {
+      navigation.navigate('RootAdmin', { request: 'BottomTabAdmin' });
+    } else {
+      navigation.navigate('Root', { request: 'BottomTabNavigator' });
     }
 
     setEmail('');
     setUsername('');
     setPassword('');
+    dispatch(setSuccessLogin(false));
   }
+
+  if (errorLogin) {
+    setTimeout(() => {
+      dispatch(setErrorLogin(''))
+    }, 5000)
+  }
+
+
 
   return (
     <KeyboardAvoidingView style={styles.containerView}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ImageBackground source={imagesHighlight} style={styles.image}>
         <View style={[styles.loginScreenContainer, styles.shadow]}>
-          <View style={styles.loginFormView}>
-          <Image
-            source={require('../assets/images/supplier.png')}
-            style={styles.imageStyle}
-          />
-            <TextInput 
-            placeholder="Email" 
-            placeholderColor="#000000" 
-            style={styles.loginFormTextInput} 
-            onChangeText={setEmail}
-            value={email}
-            /> 
-            <TextInput 
-            placeholder="Username" 
-            placeholderColor="#000000" 
-            style={styles.loginFormTextInput} 
-            onChangeText={setUsername}
-            value={username}
-            />
-            <TextInput 
-            placeholder="Password" 
-            placeholderColor="#000000" 
-            style={styles.loginFormTextInput} 
-            secureTextEntry={true}
-            onChangeText={setPassword}
-            value={password}
-            />
-            <Button 
-              iconLeft transparent info
-              onPress={handleSubmit}
-              style={styles.loginButton}
-            >
-            <Text style={{ color: '#fff', fontSize: 18}}>Login</Text>
-            </Button>
-            <View style={styles.footer}>
-                <Text style={styles.logoText}>presented by ResellerApp</Text>
+          <ScrollView>
+            <View style={styles.loginFormView}>
+              <Image
+                source={require('../assets/images/supplier.png')}
+                style={styles.imageStyle}
+              />
+              {errorLogin ? <Text style={styles.errorText}>{errorLogin}</Text> : <Text style={styles.errorText}></Text>}
+              <TextInput 
+              placeholder="Email" 
+              placeholderColor="#000000" 
+              style={styles.loginFormTextInput} 
+              onChangeText={setEmail}
+              value={email}
+              keyboardType="email-address"
+              /> 
+              <TextInput 
+              placeholder="Username" 
+              placeholderColor="#000000" 
+              style={styles.loginFormTextInput} 
+              onChangeText={setUsername}
+              value={username}
+              />
+              <TextInput 
+              placeholder="Password" 
+              placeholderColor="#000000" 
+              style={styles.loginFormTextInput} 
+              secureTextEntry={true}
+              onChangeText={setPassword}
+              value={password}
+              key
+              />
+              <Button 
+                iconLeft transparent info
+                onPress={handleSubmit}
+                style={styles.loginButton}
+              >
+                {
+                  loading
+                  ? <ActivityIndicator
+                      size='small'
+                      color='#fff'
+                    />
+                  : <Text style={{ color: '#fff', fontSize: 18}}>Login</Text>
+                }
+              </Button>
+              <View style={styles.footer}>
+                  <Text style={styles.logoText}>presented by ResellerApp</Text>
+              </View>
             </View>
-          </View>
+          </ScrollView>
         </View>
         </ImageBackground>
       </TouchableWithoutFeedback>
@@ -110,6 +133,10 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
     containerView: {
         flex: 1,
+      },
+      errorText: {
+        color: 'white',
+        fontWeight: 'bold'
       },
       loginScreenContainer: {
         flex: 1,

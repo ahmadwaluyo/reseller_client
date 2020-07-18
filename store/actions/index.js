@@ -9,6 +9,16 @@ export const SET_GETUSER = 'SET_GETUSER';
 export const SET_ALLPRODUCT = 'SET_ALLPRODUCT';
 export const SET_SUCCESSPOST = 'SET_SUCCESSPOST';
 export const SET_DELETERESELLER = 'SET_DELETERESELLER';
+export const SET_ERROR_LOGIN = "SET_ERROR_LOGIN";
+export const SET_SUCCESS_LOGIN = "SET_SUCCESS_LOGIN";
+
+export const setSuccessLogin = (data) => {
+    return { type: SET_SUCCESS_LOGIN, payload: data}
+}
+
+export const setErrorLogin = (data) => {
+    return { type: SET_ERROR_LOGIN, payload: data}
+}
 
 export const setLogin = (data) => {
     return { type: "SET_LOGIN", payload : data }
@@ -41,11 +51,14 @@ export const login = (dataLogin) => {
         axios.post(url, dataLogin)
             .then( async ({ data }) => {
                 await AsyncStorage.setItem("token", JSON.stringify(data));
-                await dispatch(setLoading(false));
+                dispatch(setSuccessLogin(true));
                 dispatch(setLogin(data));
             })
             .catch(err => {
-              console.log(err);
+                dispatch(setErrorLogin('Email/Password wrong'));
+            })
+            .finally(_ => {
+                dispatch(setLoading(false));
             })
     }
 }
