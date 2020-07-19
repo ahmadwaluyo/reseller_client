@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Image, StyleSheet, View, TouchableOpacity, FlatList } from 'react-native';
 import Modal from 'react-native-modal';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Picker, Form, Content, Card, CardItem, Text, Button, Icon, Left, Body, Right, Header, Item, Input, } from 'native-base';
+import { Picker, Form, Content, Card, CardItem, Text, Button, Icon, Left, Body, Right, Header, Item, Input, Segment } from 'native-base';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { List, ListItem } from 'native-base';
 import ImageSlider from 'react-native-image-slider';
 import { getAllProducts } from '../store/actions';
@@ -17,7 +18,8 @@ export default function ListScreen({ navigation }) {
   const [productModal, setProductModal] = useState({})
   const loading = useSelector((state) => state.loading);
   const [modalVisible, setModalVisible] = useState(false);
-  const [selected, setSelect] = useState("key2");
+  const [selected, setSelect] = useState(undefined);
+  const [search, setSearch] = useState('');
   const allProducts = useSelector((state) => state.allProducts);
   const dispatch = useDispatch();
 
@@ -44,10 +46,6 @@ export default function ListScreen({ navigation }) {
     setProductModal(item);
     setModalVisible(!modalVisible);
   };
-
-  const onValueChange = (value) => {
-    setSelect(value)
-  }
 
   if (loading && !fontsLoaded) {
     return (
@@ -108,21 +106,21 @@ export default function ListScreen({ navigation }) {
                 </View>
               </Left>
               <Right>
-                <View style={{ flexDirection: 'row', width: 150}}>
+                <View style={{ flexDirection: 'row', width: wp('50%')}}>
                     <Text>: {productModal.brand ? productModal.brand : "no brand"}</Text>
                   </View>
-                  <View style={{ flexDirection: 'row', width: 150}}>
+                  <View style={{ flexDirection: 'row', width: wp('50%')}}>
                     <Text>: {productModal.product_name ? productModal.product_name : "no product name"}</Text>
                   </View>
-                  <View style={{ flexDirection: 'row', width: 150}}>
+                  <View style={{ flexDirection: 'row', width: wp('50%')}}>
                     <Text>: {productModal.stock ? productModal.stock : "stock none"}</Text>
                   </View>
-                  <View style={{ flexDirection: 'row', width: 150}}>
+                  <View style={{ flexDirection: 'row', width: wp('50%')}}>
                     <Body style={{ alignItems: 'flex-start', justifyContent: 'center'}}>
                         <Text style={{ fontWeight: 'bold'}}>: {productModal.price ? productModal.price : "Rp 0"}</Text>
                     </Body>
                   </View>
-                  <View style={{ flexDirection: 'row', width: 150}}>
+                  <View style={{ flexDirection: 'row', width: wp('50%')}}>
                     <Text>: Merah, Kuning, Biru</Text>
                   </View>            
               </Right>
@@ -131,49 +129,32 @@ export default function ListScreen({ navigation }) {
         </Modal>
 
         <View style={{ flexDirection: 'row'}}>
-        <Header style={{ backgroundColor: '#2CBC7B', width: 60}}>
-            <Content>
-              <Form>
-                <Picker
-                  renderHeader={backAction =>
-                    <Header style={{ backgroundColor: "#f44242" }}>
-                      <Left>
-                        <Button transparent onPress={backAction}>
-                          <Icon name="arrow-back" style={{ color: "#fff" }} />
-                        </Button>
-                      </Left>
-                      <Body style={{ flex: 3 }}>
-                        <Title style={{ color: "#fff" }}>Your Header</Title>
-                      </Body>
-                      <Right />
-                    </Header>}
-                  mode="dropdown"
-                  iosIcon={<Icon name="arrow-down" />}
-                  selectedValue={selected}
-                  onValueChange={() => onValueChange.bind(selected)}
-                >
-                  <Picker.Item label="Wallet" value="key0" />
-                  <Picker.Item label="ATM Card" value="key1" />
-                  <Picker.Item label="Debit Card" value="key2" />
-                  <Picker.Item label="Credit Card" value="key3" />
-                  <Picker.Item label="Net Banking" value="key4" />
-                </Picker>
-              </Form>
-            </Content>
-          </Header>
-
-          <Header searchBar style={{ backgroundColor: '#2CBC7B', width: 300}} rounded>
-          <Item>
+          <Header style={{ backgroundColor: '#2CBC7B', width: wp('100%')}} searchBar rounded>
+            <Item>
               <Icon name="ios-search" />
               <Input placeholder="Search" />
               <Icon name="ios-cart" />
-          </Item>
-          <Button transparent>
+            </Item>
+            <Button transparent>
               <Text>Search</Text>
-          </Button>
+            </Button>
           </Header>
-          
         </View>
+
+        <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: '#2CBC7B'}}>
+          <Segment style={{ marginVertical: 5, backgroundColor: '#2CBC7B' }}>
+            <Button first>
+              <Text>All</Text>
+            </Button>
+            <Button>
+              <Text>Fashion Pria</Text>
+            </Button>
+            <Button last>
+              <Text>Fashion Wanita</Text>
+            </Button>
+          </Segment>
+        </View>
+
         <ScrollView>
         <FlatList
         keyExtractor={(item, index) => 'key'+index}
@@ -229,7 +210,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   imageStyle: {
-    width: 150,
+    width: wp('50%'),
     height: 150,
     marginTop: 120,
     marginBottom: 10,

@@ -4,9 +4,10 @@ import * as React from 'react';
 import Constant from 'expo-constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { Image, StyleSheet, View, FlatList, Alert, TouchableOpacity, AsyncStorage, TextInput } from 'react-native';
+import { Image, StyleSheet, View, FlatList, Alert, TouchableOpacity, AsyncStorage, TextInput, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { Picker, Form, Content, Card, CardItem, Text, Button, Icon, Left, Body, Right, Header, Item, Input, Title } from 'native-base';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Picker, Form, Content, Card, CardItem, Text, Button, Icon, Left, Body, Right, Header, Item, Input } from 'native-base';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { Table, Row, Rows, TableWrapper, Cell } from 'react-native-table-component';
 import Modal from 'react-native-modal';
 import { getAllUser, createReseller, editReseller, deleteReseller } from '../../store/actions';
@@ -201,111 +202,74 @@ export default function DataMitra({ navigation }) {
         animationInTiming={600}
         animationOutTiming={800}
         >
-          <View style={styles.loginFormView}>
-            <Text style={[styles.btnText, { fontSize: 20, padding: 10}]}>Form Add Reseller</Text>
-            <TextInput 
-              placeholder="Email" 
-              placeholderColor="#000000" 
-              style={styles.loginFormTextInput} 
-              onChangeText={setEmail}
-              value={email}
-              />
+          <KeyboardAvoidingView style={{ flex: 1 }}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.addFormView}>
+              <Text style={[styles.btnText, { fontSize: 20, padding: 10}]}>Form Add Reseller</Text>
               <TextInput 
-              placeholder="Username" 
-              placeholderColor="#000000" 
-              style={styles.loginFormTextInput} 
-              onChangeText={setUsername}
-              value={username}
-              />
-              <TextInput 
-              placeholder="Password" 
-              placeholderColor="#000000" 
-              style={styles.loginFormTextInput} 
-              secureTextEntry={true}
-              onChangeText={setPassword}
-              value={password}
-              />
-              <TextInput 
-              placeholder="Address" 
-              placeholderColor="#000000" 
-              style={styles.loginFormTextInput} 
-              onChangeText={setAddress}
-              value={address}
-              />
-              <TextInput 
-              placeholder="Phone Number" 
-              placeholderColor="#000000" 
-              style={styles.loginFormTextInput} 
-              onChangeText={setPhoneNumber}
-              value={phone_number}
-              />
-              <TextInput 
-              placeholder="Business" 
-              placeholderColor="#000000" 
-              style={styles.loginFormTextInput} 
-              onChangeText={setBusiness}
-              value={business}
-              />
-              <Button 
-                iconLeft transparent info
-                onPress={handleSubmit}
-                style={styles.loginButton}
-              >
-                 <Text style={{ color: '#fff', fontSize: 18}}>ADD</Text>
-              </Button>
-            <Icon 
-              onTouchEnd={toggleModal}
-              active name="close" style={{ fontSize: 30, position: 'absolute', top: 5, right: 5, color: '#ff0000' }} />
-          </View>
-
+                placeholder="Email" 
+                placeholderColor="#000000" 
+                style={styles.addFormTextInput} 
+                onChangeText={setEmail}
+                value={email}
+                />
+                <TextInput 
+                placeholder="Username" 
+                placeholderColor="#000000" 
+                style={styles.addFormTextInput} 
+                onChangeText={setUsername}
+                value={username}
+                />
+                <TextInput 
+                placeholder="Password" 
+                placeholderColor="#000000" 
+                style={styles.addFormTextInput} 
+                secureTextEntry={true}
+                onChangeText={setPassword}
+                value={password}
+                />
+                <TextInput 
+                placeholder="Address" 
+                placeholderColor="#000000" 
+                style={styles.addFormTextInput} 
+                onChangeText={setAddress}
+                value={address}
+                />
+                <TextInput 
+                placeholder="Phone Number" 
+                placeholderColor="#000000" 
+                style={styles.addFormTextInput} 
+                onChangeText={setPhoneNumber}
+                value={phone_number}
+                />
+                <TextInput 
+                placeholder="Business" 
+                placeholderColor="#000000" 
+                style={styles.addFormTextInput} 
+                onChangeText={setBusiness}
+                value={business}
+                />
+                <Button 
+                  iconLeft transparent info
+                  onPress={handleSubmit}
+                  style={styles.addButton}
+                >
+                  <Text style={{ color: '#fff', fontSize: 18}}>ADD</Text>
+                </Button>
+              <Icon 
+                onTouchEnd={toggleModal}
+                active name="close" style={{ fontSize: 30, position: 'absolute', top: 5, right: 5, color: '#ff0000' }} />
+            </View>
+            </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
         </Modal>
 
         <View style={{ flexDirection: 'row'}}>
-        <Header style={{ backgroundColor: '#2CBC7B', width: 60}}>
-            <Content>
-              <Form>
-                <Picker
-                  renderHeader={backAction =>
-                    <Header style={{ backgroundColor: "#f44242" }}>
-                      <Left>
-                        <Button transparent onPress={backAction}>
-                          <Icon name="arrow-back" style={{ color: "#fff" }} />
-                        </Button>
-                      </Left>
-                      <Body style={{ flex: 3 }}>
-                        <Title style={{ color: "#fff" }}>Your Header</Title>
-                      </Body>
-                      <Right />
-                    </Header>}
-                  mode="dropdown"
-                  iosIcon={<Icon name="arrow-down" />}
-                  selectedValue={selected}
-                  onValueChange={() => onValueChange.bind(selected)}
-                >
-                  <Picker.Item label="Wallet" value="key0" />
-                  <Picker.Item label="ATM Card" value="key1" />
-                  <Picker.Item label="Debit Card" value="key2" />
-                  <Picker.Item label="Credit Card" value="key3" />
-                  <Picker.Item label="Net Banking" value="key4" />
-                </Picker>
-              </Form>
-            </Content>
+          <Header style={{ width: wp('100%'), backgroundColor: '#2CBC7B', marginBottom: 10, justifyContent: 'center', alignItems: 'center' }}>
+            <Body style={{ justifyContent: 'center', alignItems: 'center'}}>
+              <Title style={{ color: '#fff'}}>DATA MITRA</Title>
+            </Body>
           </Header>
-
-          <Header searchBar style={{ backgroundColor: '#2CBC7B', width: 300}} rounded>
-          <Item>
-              <Icon name="ios-search" />
-              <Input placeholder="Search" />
-              <Icon name="ios-cart" />
-          </Item>
-          <Button transparent>
-              <Text>Search</Text>
-          </Button>
-          </Header>
-          
-        </View>
-        <View style={{ width: 350, height: 50, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={{ fontWeight: 'bold', fontSize: 26 }}>DATA MITRA</Text>
         </View>
         <View style={{ alignItems: 'flex-start', flexDirection: 'row', height: 25 }}>
           <Icon type="AntDesign" name="pluscircle" style={{ color: '#2CBC7B', fontSize: 24, marginHorizontal: 10 }} onPress={toggleModal} />
@@ -371,13 +335,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  loginFormView: {
+  addFormView: {
     flex: 1,
     alignItems: 'center',
     paddingTop: Constant.statusBarHeight + 20,
     backgroundColor: 'rgba(0,0,0,0.5)'
   },
-  loginFormTextInput: {
+  addFormTextInput: {
     width: 300,
     height: 43,
     fontSize: 14,
@@ -392,7 +356,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 5,
   },
-  loginButton: {
+  addButton: {
     backgroundColor: '#3897f1',
     borderRadius: 5,
     marginTop: 15,

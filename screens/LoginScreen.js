@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
         flex: 1,
       },
       errorText: {
-        color: 'white',
+        color: 'red',
         fontWeight: 'bold'
       },
       loginScreenContainer: {
@@ -145,12 +145,13 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "800",
         textAlign: 'center',
-        fontFamily: 'sans-serif'
+        fontFamily: 'Roboto',
+        color: '#fff'
       },
       loginFormView: {
         flex: 1,
         alignItems: 'center',
-        paddingTop: Constant.statusBarHeight + 70,
+        paddingTop: Constant.statusBarHeight + 75,
         backgroundColor: 'rgba(0,0,0,0.5)'
       },
       loginFormTextInput: {
@@ -179,7 +180,7 @@ const styles = StyleSheet.create({
       },
       footer: {
         height: 180,
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
         alignItems: 'center'
       },
       imageStyle: {
@@ -190,16 +191,9 @@ const styles = StyleSheet.create({
         borderRadius: 5
       },
       image: {
-        flex: 0.9,
+        flex: 1,
         resizeMode: "cover",
         justifyContent: "center",
-        justifyContent: "flex-end",
-      },
-      horizontal: {
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: 'center',
-        padding: 10
       },
       shadow: {
         shadowColor: "#000",

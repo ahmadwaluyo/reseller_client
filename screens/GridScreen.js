@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Image, StyleSheet, View, FlatList } from 'react-native';
-import { Picker, Form, Container, Content, Card, CardItem, Text, Button, Icon, Left, Body, Right, Header, Item, Input } from 'native-base';
+import { Picker, Form, Container, Content, Card, CardItem, Text, Button, Icon, Left, Body, Right, Header, Item, Input, Segment } from 'native-base';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { getAllProducts } from '../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Grid } from 'react-native-easy-grid';
@@ -125,49 +126,31 @@ export default function GridScreen () {
                         </CardItem>
                     </Card>
                     </Modal>
-                  <View style={{ flexDirection: 'row'}}>
-                    <Header style={{ backgroundColor: '#2CBC7B', width: 60}}>
-                        <Content>
-                        <Form>
-                            <Picker
-                            renderHeader={backAction =>
-                                <Header style={{ backgroundColor: "#f44242" }}>
-                                <Left>
-                                    <Button transparent onPress={backAction}>
-                                    <Icon name="arrow-back" style={{ color: "#fff" }} />
-                                    </Button>
-                                </Left>
-                                <Body style={{ flex: 3 }}>
-                                    <Title style={{ color: "#fff" }}>Your Header</Title>
-                                </Body>
-                                <Right />
-                                </Header>}
-                            mode="dropdown"
-                            iosIcon={<Icon name="arrow-down" />}
-                            selectedValue={selected}
-                            onValueChange={() => onValueChange.bind(selected)}
-                            >
-                            <Picker.Item label="Wallet" value="key0" />
-                            <Picker.Item label="ATM Card" value="key1" />
-                            <Picker.Item label="Debit Card" value="key2" />
-                            <Picker.Item label="Credit Card" value="key3" />
-                            <Picker.Item label="Net Banking" value="key4" />
-                            </Picker>
-                        </Form>
-                        </Content>
-                    </Header>
-
-                    <Header searchBar style={{ backgroundColor: '#2CBC7B', width: 300}} rounded>
-                    <Item>
+                    <View style={{ flexDirection: 'row'}}>
+                    <Header style={{ backgroundColor: '#2CBC7B', width: wp('100%')}} searchBar rounded>
+                        <Item>
                         <Icon name="ios-search" />
                         <Input placeholder="Search" />
                         <Icon name="ios-cart" />
-                    </Item>
-                    <Button transparent>
+                        </Item>
+                        <Button transparent>
                         <Text>Search</Text>
-                    </Button>
+                        </Button>
                     </Header>
-                    
+                    </View>
+
+                    <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: '#2CBC7B'}}>
+                    <Segment style={{ marginVertical: 5, backgroundColor: '#2CBC7B' }}>
+                        <Button first>
+                        <Text>All</Text>
+                        </Button>
+                        <Button>
+                        <Text>Fashion Pria</Text>
+                        </Button>
+                        <Button last>
+                        <Text>Fashion Wanita</Text>
+                        </Button>
+                    </Segment>
                     </View>
                     <Content style={{ marginBottom: 5 }}>
                         <Grid>
